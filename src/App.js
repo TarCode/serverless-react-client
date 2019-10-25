@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Auth } from "aws-amplify";
@@ -7,7 +7,7 @@ import Routes from "./Routes";
 import "./App.css";
 
 
-export default function App(props) {
+function App(props) {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
 
@@ -33,6 +33,8 @@ export default function App(props) {
     await Auth.signOut();
   
     userHasAuthenticated(false);
+
+    props.history.push("/login");
   }
 
   return (
@@ -41,7 +43,7 @@ export default function App(props) {
       <Navbar fluid collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/">Scratch</Link>
+            <Link to="/">Notey</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
@@ -65,3 +67,5 @@ export default function App(props) {
     </div>
   );
 }
+
+export default withRouter(App);
